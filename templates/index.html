@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Story Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            margin-top: 20px;
+            color: #333;
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 60px;
+            font-weight: 600;
+        }
+        .form-container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            width: 400px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .character-section {
+            margin-bottom: 15px;
+        }
+        .character-section label {
+            margin-bottom: 5px;
+            display: block;
+        }
+        .character-container {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+        .character {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AI Story Generator</h1>
+    <div class="form-container">
+        <form action="/generate_story" method="post">
+            <div class="form-group">
+                <label for="genre">Genre</label>
+                <select id="genre" name="genre">
+                    <option value="HORROR">HORROR</option>
+                    <option value="ROMCOM">ROMCOM</option>
+                    <option value="THRILL">THRILL</option>
+                    <option value="DETECTIVE">DETECTIVE</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="storyType">Story Type</label>
+                <input type="text" id="storyType" name="story_type" placeholder="Enter story type (e.g., short story, novel)">
+            </div>
+            <div class="form-group">
+                <label for="wordCount">Word Count</label>
+                <input type="number" id="wordCount" name="word_count" placeholder="Enter word count">
+            </div>
+            <div class="form-group">
+                <label for="ageGroup">Age Group</label>
+                <select id="ageGroup" name="age_group">
+                    <option value="4-10">4-10 yrs</option>
+                    <option value="11-17">11-17 yrs</option>
+                    <option value="18-50">18-50 yrs</option>
+                    <option value="51-75">51-75 yrs</option>
+                </select>
+            </div>
+            <div class="character-section" id="characterSection">
+                <!-- Character fields will be dynamically added here -->
+            </div>
+            <button type="button" onclick="addCharacterField()">Add Character</button>
+            <button type="submit">Generate Story</button>
+        </form>
+    </div>
+
+    <script>
+        let characterCount = 0;
+
+        function addCharacterField() {
+            characterCount++;
+            const characterSection = document.getElementById('characterSection');
+            const characterContainer = document.createElement('div');
+            characterContainer.classList.add('character-container');
+
+            const label = document.createElement('label');
+            label.textContent = `Character ${characterCount}:`;
+
+            const genderInput = document.createElement('input');
+            genderInput.type = 'text';
+            genderInput.name = `gender_character_${characterCount}`;
+            genderInput.placeholder = 'Enter gender';
+
+            const descriptionInput = document.createElement('input');
+            descriptionInput.type = 'text';
+            descriptionInput.name = `description_character_${characterCount}`;
+            descriptionInput.placeholder = 'Enter description';
+
+            characterContainer.appendChild(label);
+            characterContainer.appendChild(genderInput);
+            characterContainer.appendChild(descriptionInput);
+            characterSection.appendChild(characterContainer);
+        }
+    </script>
+</body>
+</html>
