@@ -4,34 +4,98 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horror Story</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f0f2f5;
+            background-color: #0d0d0d;
+            color: #f0e6d2;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
             margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         h1 {
-            margin-top: 20px;
-            color: #333;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 40px;
-            font-weight: 600;
+            margin: 0 0 20px 0;
+            color: #ff0000;
+            font-family: 'UnifrakturCook', cursive;
+            font-size: 50px;
+            font-weight: 700;
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.7);
+            animation: flicker 1.5s infinite alternate;
         }
         .story-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: rgba(28, 28, 28, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
             text-align: left;
-            width: 400px;
+            width: 100%;
+            max-width: 600px;
             max-height: 70vh;
             overflow-y: auto;
+            animation: fadeInUp 1s ease-in-out;
+            border: 2px solid #ff0000;
+            position: relative;
+        }
+        p {
+            line-height: 1.6;
+            font-size: 18px;
+            margin: 10px 0;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes flicker {
+            0% { opacity: 1; }
+            10% { opacity: 0.8; }
+            20% { opacity: 0.9; }
+            30% { opacity: 0.7; }
+            40% { opacity: 0.85; }
+            50% { opacity: 0.75; }
+            60% { opacity: 0.9; }
+            70% { opacity: 0.85; }
+            80% { opacity: 0.95; }
+            90% { opacity: 0.8; }
+            100% { opacity: 1; }
+        }
+        .story-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            pointer-events: none;
+            animation: flicker 3s infinite alternate;
+        }
+        /* Custom scrollbar styles */
+        .story-container::-webkit-scrollbar {
+            width: 12px;
+        }
+        .story-container::-webkit-scrollbar-track {
+            background: #0d0d0d;
+            border-radius: 10px;
+        }
+        .story-container::-webkit-scrollbar-thumb {
+            background: #ff0000;
+            border-radius: 10px;
+            border: 3px solid #0d0d0d;
+        }
+        .story-container::-webkit-scrollbar-thumb:hover {
+            background: #ff4d4d;
         }
     </style>
 </head>

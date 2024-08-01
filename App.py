@@ -37,6 +37,7 @@ def generate_story():
     prompt = (
     f"Generate a {story_type} story in the {genre} genre with {word_count} words for the {age_group} age group. "
     "Ensure the story is suitable for that age group, avoiding explicit language, hate speech, or offensive content."
+    "in case of romcom make sure it is safe in all aspects"
 )
 
 

@@ -4,115 +4,219 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Story Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
     <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+        }
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #f0f2f5;
+            background: linear-gradient(135deg, #f9a825, #ff5722); /* Vibrant gradient background */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
-            margin: 0;
+            min-height: 100vh;
+            padding: 0 20px; /* Add horizontal padding to avoid horizontal overflow */
+        }
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            flex: 1;
+            width: 100%;
+            max-width: 600px;
+            padding: 20px;
+            box-sizing: border-box;
+            margin: 0 auto; /* Center the content */
         }
         h1 {
-            margin-top: 20px;
-            color: #333;
-            font-family: 'Times New Roman', Times, serif;
-            font-size: 60px;
-            font-weight: 600;
+            margin-bottom: 30px;
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: fadeIn 1s ease-out;
         }
         .form-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: left;
-            width: 400px;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-sizing: border-box;
+            animation: fadeInUp 1s ease-out;
         }
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         label {
             display: block;
-            margin-bottom: 5px;
-            color: #333;
+            margin-bottom: 8px;
+            color: #333333;
+            font-weight: 500;
+            font-size: 16px;
         }
         input[type="text"], input[type="number"], select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
             font-size: 16px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            border-color: #ff5722;
+            box-shadow: 0 0 8px rgba(255, 87, 34, 0.3);
+            outline: none;
         }
         button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
+            padding: 12px 24px;
+            background-color: #ff5722;
+            color: #ffffff;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 10px;
+            font-family: 'Montserrat', sans-serif;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #e64a19;
+        }
+        button:active {
+            transform: scale(0.98);
         }
         .character-section {
-            margin-bottom: 15px;
-        }
-        .character-section label {
-            margin-bottom: 5px;
-            display: block;
+            margin-top: 20px;
         }
         .character-container {
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 4px;
-            margin-top: 5px;
+            border: 2px solid #ff5722;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            background: #fbe9e7;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease;
         }
-        .character {
-            margin-bottom: 10px;
+        .character-container:hover {
+            background-color: #ffccbc;
+        }
+        /* Modern Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 12px; /* Width of the scrollbar */
+        }
+        ::-webkit-scrollbar-track {
+            background: #f0f0f0; /* Track background */
+            border-radius: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #ff5722; /* Scrollbar thumb color */
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e64a19; /* Darker color on hover */
+        }
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* Footer Styling */
+        footer {
+            background: #333;
+            color: #ffffff;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+            font-size: 14px;
+            box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.2); /* Optional shadow for footer */
+            position: relative;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin-top: 20px; /* Ensure there's space above footer */
+        }
+        footer a {
+            color: #ff5722;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        footer a:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <h1>AI Story Generator</h1>
-    <div class="form-container">
-        <form action="/generate_story" method="post">
-            <div class="form-group">
-                <label for="genre">Genre</label>
-                <select id="genre" name="genre">
-                    <option value="HORROR">HORROR</option>
-                    <option value="ROMCOM">ROMCOM</option>
-                    <option value="THRILL">THRILL</option>
-                    <option value="DETECTIVE">DETECTIVE</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="storyType">Story Type</label>
-                <input type="text" id="storyType" name="story_type" placeholder="Enter story type (e.g., short story, novel)">
-            </div>
-            <div class="form-group">
-                <label for="wordCount">Word Count</label>
-                <input type="number" id="wordCount" name="word_count" placeholder="Enter word count">
-            </div>
-            <div class="form-group">
-                <label for="ageGroup">Age Group</label>
-                <select id="ageGroup" name="age_group">
-                    <option value="4-10">4-10 yrs</option>
-                    <option value="11-17">11-17 yrs</option>
-                    <option value="18-50">18-50 yrs</option>
-                    <option value="51-75">51-75 yrs</option>
-                </select>
-            </div>
-            <div class="character-section" id="characterSection">
-                <!-- Character fields will be dynamically added here -->
-            </div>
-            <button type="button" onclick="addCharacterField()">Add Character</button>
-            <button type="submit">Generate Story</button>
-        </form>
+    <div class="content">
+        <h1>AI Story Generator</h1>
+        <div class="form-container">
+            <form action="/generate_story" method="post">
+                <div class="form-group">
+                    <label for="genre">Genre</label>
+                    <select id="genre" name="genre">
+                        <option value="HORROR">HORROR</option>
+                        <option value="ROMCOM">ROMCOM</option>
+                        <option value="THRILL">THRILL</option>
+                        <option value="DETECTIVE">DETECTIVE</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="storyType">Story Type</label>
+                    <input type="text" id="storyType" name="story_type" placeholder="Enter story type (e.g., short story, novel)">
+                </div>
+                <div class="form-group">
+                    <label for="wordCount">Word Count</label>
+                    <input type="number" id="wordCount" name="word_count" placeholder="Enter word count">
+                </div>
+                <div class="form-group">
+                    <label for="ageGroup">Age Group</label>
+                    <select id="ageGroup" name="age_group">
+                        <option value="4-10">4-10 yrs</option>
+                        <option value="11-17">11-17 yrs</option>
+                        <option value="18-50">18-50 yrs</option>
+                        <option value="51-75">51-75 yrs</option>
+                    </select>
+                </div>
+                <div class="character-section" id="characterSection">
+                    <!-- Character fields will be dynamically added here -->
+                </div>
+                <button type="button" onclick="addCharacterField()">Add Character</button>
+                <button type="submit">Generate Story</button>
+            </form>
+        </div>
     </div>
+
+    <footer>
+        Made with love by <a href="#">Anwesha</a> and <a href="#">Sambarta</a>
+    </footer>
 
     <script>
         let characterCount = 0;
