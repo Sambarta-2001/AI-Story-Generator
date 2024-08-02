@@ -97,6 +97,10 @@
         .story-container::-webkit-scrollbar-thumb:hover {
             background: #ff4d4d;
         }
+        /* Hidden audio element */
+        audio {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -104,5 +108,11 @@
     <div class="story-container">
         <p>{{ story }}</p>
     </div>
+
+    <!-- Hidden audio element for background sound -->
+    <audio autoplay loop>
+        <source src="{{ url_for('static', filename='audio/audio.mp3') }}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
 </body>
 </html>
