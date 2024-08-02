@@ -104,5 +104,5 @@ We welcome contributions to enhance the AI Story Generator. To contribute:
 
 ## License
 
-[MIT](https://choosealicense.com/licenses/mit/)
+[GPL-3.0](https://choosealicense.com/licenses/GPL-3.0/)
 
