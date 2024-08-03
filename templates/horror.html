@@ -101,18 +101,104 @@
         audio {
             display: none;
         }
+        /* Button styles */
+        .button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .button-container button {
+            background-color: #ff0000;
+            color: #f0e6d2;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 0 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            animation: fadeInUp 1s ease-in-out;
+        }
+        .button-container button:hover {
+            background-color: #ff4d4d;
+        }
+        /* Volume control styles */
+        .volume-control {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .volume-control label {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+        .volume-control input[type=range] {
+            width: 300px;
+        }
     </style>
 </head>
 <body>
     <h1>Horror Story</h1>
     <div class="story-container">
-        <p>{{ story }}</p>
+        <p id="story">{{ story }}</p>
+    </div>
+    <div class="button-container">
+        <button onclick="readAloud()">Read Aloud</button>
+        <button onclick="stopReading()">Stop Reading</button>
+    </div>
+    <div class="volume-control">
+        <div>
+            <label for="read-aloud-volume">Read Aloud Volume:</label>
+            <input type="range" id="read-aloud-volume" min="0" max="1" step="0.1" value="1" onchange="setReadAloudVolume(this.value)">
+        </div>
+        <div>
+            <label for="bg-music-volume">Background Music Volume:</label>
+            <input type="range" id="bg-music-volume" min="0" max="1" step="0.1" value="1" onchange="setBgMusicVolume(this.value)">
+        </div>
     </div>
 
     <!-- Hidden audio element for background sound -->
-    <audio autoplay loop>
+    <audio id="bg-music" autoplay loop>
         <source src="{{ url_for('static', filename='audio/audio.mp3') }}" type="audio/mpeg">
         Your browser does not support the audio element.
     </audio>
+
+    <script>
+        let speech = null;
+        const bgMusic = document.getElementById('bg-music');
+
+        function readAloud() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+            const storyText = document.getElementById('story').innerText;
+            speech = new SpeechSynthesisUtterance(storyText);
+            speech.lang = 'en-US';
+            speech.pitch = 1;
+            speech.rate = 1;
+            speech.volume = document.getElementById('read-aloud-volume').value;
+            window.speechSynthesis.speak(speech);
+        }
+
+        function stopReading() {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+        }
+
+        function setReadAloudVolume(volume) {
+            if (speech) {
+                speech.volume = volume;
+            }
+        }
+
+        function setBgMusicVolume(volume) {
+            bgMusic.volume = volume;
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+            }
+        });
+    </script>
 </body>
 </html>
