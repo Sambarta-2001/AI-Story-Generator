@@ -76,17 +76,28 @@ def generate_story():
     story_type = data.get('story_type')
     word_count = data.get('word_count')
     age_group = data.get('age_group')
+    language = data.get('language', 'English')  # Default to English if not provided
+    author_likelihood = data.get('author_likelihood', '')  # Optional field
 
     if not all([genre, story_type, word_count, age_group]):
-        return jsonify({'error': 'All fields are required'}), 400
+        return jsonify({'error': 'All fields except author likelihood and language are required'}), 400
 
-    model = genai.GenerativeModel(model_name='gemini-1.0-pro', generation_config={"temperature": 0.7})
+    model = genai.GenerativeModel(model_name='gemini-1.0-pro', generation_config={"temperature": 0.5})
     chat = model.start_chat(enable_automatic_function_calling=True)
 
     prompt = (
         f"Generate a {story_type} story in the {genre} genre with {word_count} words for the {age_group} age group. "
-        "Ensure the story is suitable for that age group, avoiding explicit language, hate speech, or offensive content."
-        "in case of romcom make sure it is safe in all aspects"
+        f"Ensure the story is suitable for that age group, avoiding explicit language, hate speech, or offensive content. "
+        f"The story should be in {language}. "
+    )
+    
+    if author_likelihood:
+        prompt += f"Reflect an author likelihood of {author_likelihood}. "
+
+    prompt += (
+        "In case of romcom, make sure it is very safe and the story is suitable for that age group, avoiding sexually explicit language, hate speech, or offensive content. "
+        "Avoid any references to sexual activity, violence, harassment, or other inappropriate content. "
+        "Ensure that the story promotes positive values and respectful interactions."
     )
 
     character_count = 0
@@ -97,14 +108,16 @@ def generate_story():
             description = data.get(f'description_character_{character_count}', '')
             prompt += f" Character {character_count}: {gender}, {description},"
 
-    prompt += (
-        f" Make sure the story is engaging and follows a coherent plot."
-    )
+    prompt += " Make sure the story is engaging and follows a coherent plot."
 
-    response = chat.send_message(prompt)
-    result = response.candidates[0].content.parts[0].text
+    try:
+        response = chat.send_message(prompt)
+        result = response.candidates[0].content.parts[0].text
+        session['story'] = result
+    except genai.types.generation_types.StopCandidateException as e:
+        result = "The generated story was flagged for safety concerns and could not be completed. Please try again with different parameters."
+        session['story'] = result
 
-    session['story'] = result
     return redirect(url_for(f'show_{genre.lower()}'))
 
 @app.route('/show_horror')
