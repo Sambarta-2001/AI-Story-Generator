@@ -86,16 +86,23 @@
             width: 12px;
         }
         .story-container::-webkit-scrollbar-track {
-            background: #0d0d0d;
+            background: #1e1e1e;
             border-radius: 10px;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
         }
         .story-container::-webkit-scrollbar-thumb {
-            background: #ff0000;
+            background: linear-gradient(45deg, #ff0000, #ff4d4d);
             border-radius: 10px;
             border: 3px solid #0d0d0d;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+            animation: thumbMove 1s infinite alternate;
         }
         .story-container::-webkit-scrollbar-thumb:hover {
-            background: #ff4d4d;
+            background: linear-gradient(45deg, #ff4d4d, #ff0000);
+        }
+        @keyframes thumbMove {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
         /* Hidden audio element */
         audio {
@@ -125,13 +132,58 @@
         .volume-control {
             margin-top: 20px;
             text-align: center;
+            animation: fadeInUp 1s ease-in-out;
         }
         .volume-control label {
-            font-size: 16px;
+            font-size: 18px;
             margin-right: 10px;
+            color: #ff4d4d;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            animation: labelPulse 1.5s infinite alternate;
+        }
+        @keyframes labelPulse {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.05); }
         }
         .volume-control input[type=range] {
             width: 300px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 8px;
+            background: #ff4d4d;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+            border-radius: 10px;
+        }
+        .volume-control input[type=range]:hover {
+            opacity: 1;
+        }
+        .volume-control input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff0000, #ff4d4d);
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+            transition: background 0.2s;
+        }
+        .volume-control input[type=range]::-webkit-slider-thumb:hover {
+            background: linear-gradient(45deg, #ff4d4d, #ff0000);
+        }
+        .volume-control input[type=range]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #ff0000, #ff4d4d);
+            cursor: pointer;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+            transition: background 0.2s;
+        }
+        .volume-control input[type=range]::-moz-range-thumb:hover {
+            background: linear-gradient(45deg, #ff4d4d, #ff0000);
         }
     </style>
 </head>
